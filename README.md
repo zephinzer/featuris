@@ -308,6 +308,23 @@ If `NODE_ENV` equals `production`, the processed response will look like:
 }
 ```
 
+If `NODE_ENV` is not defined, all environments will be returned:
+
+```
+{
+  "feature_01": {
+    "development": {
+      "value": true,
+      ...
+    },
+    "production": {
+      "value": false,
+      ...
+    }
+  }
+}
+```
+
 ### `PORT`
 
 > Defaults to `3000`.
