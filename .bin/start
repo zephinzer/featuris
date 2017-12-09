@@ -1,0 +1,7 @@
+#!/bin/sh
+CURR_DIR=$(dirname $0);
+if [ "${NODE_ENV}" != "development" ]; then
+  node ${CURR_DIR}/../entrypoint.js;
+else
+  nodemon ${CURR_DIR}/../entrypoint.js;
+fi;

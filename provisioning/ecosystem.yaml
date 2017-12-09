@@ -1,0 +1,43 @@
+apps:
+  - name: "janus"
+    script: ./entrypoint.js
+    instances: 5
+    exec_mode: cluster
+    max_memory_restart: "120M"
+    max_restarts: 100
+    restart_delay: 5000
+    kill_timeout: 30
+    watch: true
+    env:
+      NODE_ENV: production
+      DEFAULT_DATA_SOURCE: "data/features"
+      LOGS_COLORIZE: "false"
+      LOGS_DISABLED: "false"
+      LOGS_FORMAT: "text"
+      LOGS_SHOW_LEVEL: "false"
+      LOGS_STRINGIFY: "false"
+      LOGS_TIMESTAMP: "false"
+      PORT: "3001"
+    env_:
+      RESTARTED: true
+  - name: "janus-development"
+    script: ./entrypoint.js
+    instances: 1
+    max_memory_restart: "200M"
+    max_restarts: 10
+    restart_delay: 5000
+    kill_timeout: 30
+    exec_mode: fork
+    watch: true
+    env:
+      NODE_ENV: development
+      DEFAULT_DATA_SOURCE: "data/features"
+      LOGS_COLORIZE: "true"
+      LOGS_DISABLED: "false"
+      LOGS_FORMAT: "text"
+      LOGS_SHOW_LEVEL: "true"
+      LOGS_STRINGIFY: "false"
+      LOGS_TIMESTAMP: "true"
+      PORT: "3000"
+    env_:
+      RESTARTED: true

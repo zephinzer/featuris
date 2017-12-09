@@ -1,0 +1,8 @@
+.env
+.git
+.gitignore
+*.md
+**/*.md
+node_modules
+provisioning
+data/features
