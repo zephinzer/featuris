@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "build": "docker build -f ./provisioning/Dockerfile -t zephinzer/janus:$(./provisioning/versioning/get-latest -q) .",
+    "build": "./.bin/build",
     "eslint": "eslint .",
     "version": "./provisioning/versioning/iterate",
     "start": "./.bin/start"

@@ -1,54 +1,38 @@
-feature_01:
-  development: true
-  qa:
+# runs an A/B test on the purchase buttons's appearance
+purchase_button_appearance:
+  dev: true # static
+  production: # variant
     type: variant
     values:
       - value: "a"
-        percentage: 20
-      - value: "b"
-        percentage: 10
-      - value: "c"
-        percentage: 15.5
-      - value: "d"
         percentage: 40
-      - value: "e"
-        percentage: 14.5
-  uat:
-    type: acceptance
-    source: pivotal
-    state: delivered
+      - value: "b"
+        percentage: 15
+      - value: "c"
+        percentage: 20.5
+      - value: "d"
+        percentage: 24.5
+# displays a banner from 5th December 11:11 PM to 8th January 11:11 AM
+christmas_banner:
+  dev: true # static
+  production: # schedule
+    type: schedule
     values:
-      - projectId: 2004917
-        storyId: 153238504
-      - projectId: 2004917
-        storyId: 152425587
-      - projectId: 2004917
-        storyId: 153084479
-  production:
+      - from: "2017-12-05 23:11:00"
+        to: "2018-1-08 11:11:11"
+# checks whether the story with ID 123456789 in the project
+# with ID 9999999 has been 'accepted' by the product owners.
+#
+# note that the following will not work without a valid Pivotal
+# Tracker API key defined in the PIVOTAL_TRACKER_API_KEY
+# environment variable and without substituting the :projectId
+# and :storyId for a real project and story
+social_sharing:
+  dev: true # static
+  production: # acceptance
     type: acceptance
     source: pivotal
     state: accepted
     values:
-      - projectId: 2004917
-        storyId: 153238504
-      - projectId: 2004917
-        storyId: 152425587
-      - projectId: 2004917
-        storyId: 153084479
-is-this-also-available:
-  development: true
-  qa: true
-  uat:
-    type: schedule
-    values:
-      - from: "2017-12-05 23:11:00"
-        to: "2018-1-10 11:11:11"
-      - from: "2017-12-03 11:11:00"
-        to: "2017-12-05 00:25:00"
-  production:
-    type: variant
-    values:
-      - value: "c"
-        percentage: 20
-      - value: "d"
-        percentage: 80
+      - projectId: 9999999
+      - storyId: 123456789

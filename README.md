@@ -12,8 +12,8 @@ A feature manifest defines feature flags, environments and relevant values. The 
 ```yaml
 # runs an A/B test on the purchase buttons's appearance
 purchase_button_appearance:
-  development: true # static
-  production: # variant
+  dev: true # static
+  prod: # variant
     type: variant
     values:
       - value: "a"
@@ -22,8 +22,8 @@ purchase_button_appearance:
         percentage: 60
 # displays a banner from 5th December 11:11 PM to 8th January 11:11 AM
 christmas_banner:
-  development: true # static
-  production: # schedule
+  dev: true # static
+  prod: # schedule
     type: schedule
     values:
       - from: "2017-12-05 23:11:00"
@@ -36,8 +36,8 @@ christmas_banner:
 # environment variable and without substituting the :projectId
 # and :storyId for a real project and story
 social_sharing:
-  development: true # static
-  production: # acceptance
+  dev: true # static
+  prod: # acceptance
     type: acceptance
     source: pivotal
     state: accepted
@@ -53,12 +53,13 @@ If you've cloned this repository, build the Janus Docker image by running `npm b
 
 ```
 docker run \
+  -e "NODE_ENV=dev" \
   -v data/features:/app/data/features:ro \
   -p 3000:3000 \
   zephinzer/janus:latest
 ```
 
-You should now be able to access the application at http://localhost:3000 with your feature toggles being available at http://localhost:3000/hello_world.
+You should now be able to access the application at http://localhost:3000 with your feature toggles being available at http://localhost:3000/hello_world. Change the `NODE_ENV` to `prod` in the above command to check out the `schedule`, `variant` and `acceptance` types.
 
 See [Other Ways To Deploy Janus](#other-ways-to-deploy-janus) for more options.
 

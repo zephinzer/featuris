@@ -1,0 +1,13 @@
+#!/bin/sh
+DOCKER_LOCATION=$(command -v docker);
+if [ "$?" != "0" ]; then
+  printf "\
+\e[1m\e[31m[ERR] Docker could not be found. Visit https://store.docker.com/search?type=edition&offering=community to download and install Docker before proceeding.\e[0m\n\n";
+  exit 1;
+else
+  printf "\e[1mUsing Docker binary found at: \e[0m${DOCKER_LOCATION}\n\n";
+fi;
+docker build \
+  -f ./provisioning/Dockerfile \
+  -t zephinzer/janus:$(./provisioning/versioning/get-latest -q) \
+  .;
