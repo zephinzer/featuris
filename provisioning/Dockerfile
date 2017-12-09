@@ -3,7 +3,7 @@ LABEL APPLICATION="janus feature toggle server" \
       AUTHOR="zephinzer" \
       CONTACT="dev-at-joeir-dot-net"
 ARG PORT=3000
-ARG NODE_ENV=production
+ARG NODE_ENV
 ARG DEFAULT_DATA_SOURCE=data/features
 ENV PORT=${PORT} \
     NODE_ENV=${NODE_ENV} \
