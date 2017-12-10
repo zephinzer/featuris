@@ -23,9 +23,9 @@ jobs:
         - COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%B");
         - |
           if [[ $COMMIT_MESSAGE == *"[force build]"* ]]; then
-            /provisioning/versioning/iterate minor -i -q;
+            ./provisioning/versioning/iterate minor -i -q;
           else
-            /provisioning/versioning/iterate -i -q;
+            ./provisioning/versioning/iterate -i -q;
           fi;
         - ./provisioning/versioning/iterate -q
         - git push -q https://zephinzer:${GITHUB_TOKEN}@github.com/zephinzer/janus.git --tags;
