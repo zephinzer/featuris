@@ -17,7 +17,7 @@ jobs:
         - npm test
     - stage: publish
       script:
-        - npm build
+        - npm run build
         - docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
         - git checkout ${TRAVIS_BRANCH};
         - COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%B");
