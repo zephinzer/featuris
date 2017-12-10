@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+notifications:
+  email:
+    - ${NOTIFICATIONS_EMAIL}
+stages:
+  - test
+  - publish
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm test
+    - stage: publish
+      script:
+        - ./provisioning/versioning/iterate -q
+        - npm build
+        - docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
+        - docker push ${DOCKERHUB_REPO_URL}:$(./provisioning/versioning/get-latest -q)
+        - docker push ${DOCKERHUB_REPO_URL}:latest
+        - docker logout
