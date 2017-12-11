@@ -109,6 +109,24 @@ When the `NODE_ENV` is set to `env_02`, the returned value is `false`.
 
 Finally when the `NODE_ENV` is set to `env_03`, the returned value is calculcated to true if the current time is between 20th April 2017 12:35 PM and 20th April 4:20 PM.
 
+If `NODE_ENV` is not set, the returned value includes all environments. This looks like:
+
+```
+{
+  "env_01": {
+    "value": true,
+    ...
+  },
+  "env_02": {
+    "value": false,
+    ...
+  },
+  "env_03": {
+    "value: true
+  }
+}
+```
+
 - - -
 
 ## Feature Flag Types
