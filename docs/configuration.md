@@ -107,7 +107,7 @@ This sets the Pivotal Tracker API Key for use with acceptance flags. [See more o
 
 ## Methods For Environment Variable Injection
 
-### Via `.env` File
+### Via `.env`
 Create a file named `.env` in the root of Janus and pass the environment variable `USE_DOTENV=true` when running `npm start`.
 
 ### Via `Dockerfile`

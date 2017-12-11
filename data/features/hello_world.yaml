@@ -35,4 +35,4 @@ social_sharing:
     state: accepted
     values:
       - projectId: 9999999
-      - storyId: 123456789
+        storyId: 123456789
