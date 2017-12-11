@@ -3,7 +3,7 @@
 Janus comes with in-built integrations for acceptance tests.
 
 Currently supported platforms:
-  - [Pivotal Tracker](#pivotal-tracker)  
+  - [Pivotal Tracker](#pivotal-tracker-acceptance-toggles)  
 
 ## Pivotal Tracker Acceptance Toggles
 
