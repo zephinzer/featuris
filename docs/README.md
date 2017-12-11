@@ -8,3 +8,13 @@ Currently supported:
   - Scheduled value falgs
   - Acceptance flags
 
+## Supported Feature Toggles
+
+### Static Flags
+Static flags are values which should be returned
+
+### A/B Variant Flags
+
+### Scheduled Flags
+
+### Acceptance Flags

@@ -35,6 +35,7 @@ function getApplication() {
           data = require(featureSourcePath);
           break;
         case 'yaml':
+        case 'yml':
           data = yaml.safeLoad(fs.readFileSync(featureSourcePath, 'utf8'));
           break;
         default:
