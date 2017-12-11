@@ -28,6 +28,8 @@ acceptance_feature:
     source: pivotal
     state: delivered
     values: # Array<storyId>
-      - 1234567
-      - 7654321
+      - projectId: 1234567
+        storyId: 123456789
+      - projectId: 7654321
+        storyId: 987654321
 ```
