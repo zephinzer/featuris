@@ -8,7 +8,7 @@ ARG DEFAULT_DATA_SOURCE=data/features
 ENV PORT=${PORT} \
     NODE_ENV=${NODE_ENV} \
     DEFAULT_DATA_SOURCE=${DEFAULT_DATA_SOURCE}
-VOLUME ["/data"]
+VOLUME ["data/features"]
 EXPOSE ${PORT}
 WORKDIR /app
 COPY . /app

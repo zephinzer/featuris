@@ -1,0 +1,96 @@
+kind: ConfigMap
+apiVersion: extensions/v1beta1
+metadata:
+  name: janus-data-features-cm
+  namespace: __your_application_namespace__
+data:
+  hello_world: |
+    feature_01:
+      development: true
+      production: false
+    feature_02:
+      development: false
+      production: true
+---
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: janus
+  namespace: __your_application_namespace__
+  labels:
+    app: janus
+    env: production
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      service: feature-flags
+  template:
+    metadata:
+      name: janus
+      namespace: __your_application_namespace__
+      labels:
+        app: janus
+        env: production
+        service: feature-flags
+    spec:
+      volumes:
+      - name: janus-features-volume
+        configMap:
+          name: janus-data-features-cm
+      containers:
+      - image: zephinzer/janus:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: janus-features-volume
+          mountPath: /app/data/features
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: 3000
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          scheme: http
+          initialDelaySeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 5
+          timeoutSeconds: 3
+---
+kind: Service
+apiVersion: extension/v1beta1
+metadata:
+  name: janus-svc
+  namespace: __your_application_namespace__
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: janus
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: janus-ing
+  namespace: __your_application_namespace__
+spec:
+  rules:
+    - host: __your_application_endpoint__
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: janus-svc
+            servicePort: 3000

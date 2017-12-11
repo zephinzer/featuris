@@ -1,0 +1,10 @@
+version: "3"
+services:
+  janus:
+    image: zephinzer/janus:latest
+    volumes:
+      - ./path/to/data/features:/app/data/features
+    environment:
+      - NODE_ENV=development
+      - LOGS_DISABLED="false"
+      - LOGS_FORMAT="json"

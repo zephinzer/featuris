@@ -1,6 +1,28 @@
 # Feature Manifests
 Feature manifests are YAML or JSON formatted files that indicate to Janus the feature flags, their types and values.
 
+Feature manifests are stored as files at `./data/features` by default. You change that by modifying the configuration through the `DEFAULT_DATA_SOURCE` environment variable. See [Configurations > DEFAULT_DATA_SOURCE](configuration.md#default_data_source) for more info.
+
+Janus will read through all YAML and JSON files in the specified directory and add the filename as a path endpoint to access each feature flag set. For example, given two files in `./data/features`:
+
+```bash
+ls -lA ./data/features;
+# -rw-r--r--  1 zephinzer  staff  1107 Dec 11 23:24 ab-tests.yaml
+# -rw-r--r--  1 zephinzer  staff  1107 Dec 11 23:24 in-development.yaml
+```
+
+There will exist two endpoints:
+
+`http://localhost:3000/ab-tests`
+
+and
+
+`http://localhost:3000/in-development`
+
+They will return the feature sets specified in the `.yaml` files respectively.
+
+- - -
+
 We proceed with a complete example followed by documentation for the various types of feature toggles.
 
 ## Complete Example
