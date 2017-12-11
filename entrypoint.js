@@ -4,7 +4,7 @@ const CONST = require('./constants');
 const utils = require('./components/utils');
 
 const preLogInitialisationLogs = [];
-if (process.env.NODE_ENV === 'development') {
+if (process.env.USE_DOTENV == 'true') {
   preLogInitialisationLogs.push('Loaded environment using dotenv...');
   require('dotenv').config();
 } else {

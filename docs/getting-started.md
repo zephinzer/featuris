@@ -40,3 +40,5 @@ docker run \
 ```
 
 You should now be able to access Janus in `production` environment at http://localhost:3000/hello_world.
+
+Acceptance feature toggles require additional configuration. Check out [the Integrations section](integrations.md) on how to do this.
