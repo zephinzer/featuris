@@ -1,2 +1,4 @@
 .env
 node_modules
+data/features
+!data/features/hello_world.yaml
