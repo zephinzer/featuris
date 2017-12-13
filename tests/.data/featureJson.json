@@ -1,0 +1,71 @@
+{
+  "test_static_string": {
+    "development": {
+      "type": "static",
+      "value": "static_string"
+    },
+    "production": true
+  },
+  "test_static_float": {
+    "development": {
+      "type": "static",
+      "value": 1.2345
+    },
+    "production": true
+  },
+  "test_static_boolean": {
+    "development": {
+      "type": "static",
+      "value": true
+    },
+    "production": true
+  },
+  "test_static_object": {
+    "development": {
+      "type": "static",
+      "value": {
+        "isObject": true
+      }
+    },
+    "production": true
+  },
+  "test_variant": {
+    "development": {
+      "type": "variant",
+      "values": [
+        {
+          "value": "a",
+          "percentage": 10
+        },
+        {
+          "value": "b",
+          "percentage": 60
+        },
+        {
+          "value": "c",
+          "percentage": 30
+        }
+      ]
+    },
+    "production": true
+  },
+  "test_schedule_fail": {
+    "development": {
+      "type": "schedule",
+      "values": [
+        {
+          "from": "2017-12-01 00:00:00",
+          "to": "2017-12-02 00:00:00"
+        }
+      ]
+    },
+    "production": true
+  },
+  "test_schedule_pass": {
+    "development": {
+      "type": "schedule",
+      "values": []
+    },
+    "production": true
+  }
+}

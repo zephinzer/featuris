@@ -51,7 +51,7 @@ function handleVariantToggle(featureToggle) {
   if (percentageTotal !== 100) {
     throw new Error(CONST.ERROR.PERCENTAGE_MISMATCH);
   }
-  let randomValue = Math.floor(Math.random() * 10000) / 100;
+  let randomValue = Math.ceil(Math.random() * 10000) / 100;
   let variantIndex = -1;
   while (randomValue > 0) {
     randomValue -= values[++variantIndex].percentage;
