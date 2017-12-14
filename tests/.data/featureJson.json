@@ -35,11 +35,11 @@
       "values": [
         {
           "value": "a",
-          "percentage": 10
+          "percentage": 20
         },
         {
           "value": "b",
-          "percentage": 60
+          "percentage": 50
         },
         {
           "value": "c",

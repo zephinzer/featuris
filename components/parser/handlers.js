@@ -1,5 +1,8 @@
+const moment = require('moment');
+
 const CONST = require('./constants');
-const utils = require('../utils');
+let utils = require('../utils');
+let Pivotal = require('../integration/pivotal');
 
 module.exports = handlers;
 
@@ -11,7 +14,7 @@ module.exports = handlers;
  */
 function handlers(type) {
   if (!handlers[type]) {
-    throw new Error(CONST.ERROR>UNSUPPORTED_TYPE);
+    throw new Error(CONST.ERROR.UNSUPPORTED_TYPE);
   } else {
     return handlers[type];
   }
@@ -28,14 +31,21 @@ handlers.variant = handleVariantToggle;
  */
 function handleScheduleToggle(featureToggle) {
   const {values} = featureToggle;
-  const moment = require('moment');
-  const now = (new Date()).getTime();
+  const now = (new Date());
+  const timezoneOffset = now.getTimezoneOffset() * 60 * 1000;
+  const currentTimestamp = now.getTime() + timezoneOffset;
   return values.reduce((existing, current) => {
-    const start = moment(current.from, 'YYYY-MM-DD hh:mm:ss')
+    const start = moment(current.from, 'YYYY-MM-DD HH:mm:ss')
       .toDate().getTime();
-    const end = moment(current.to, 'YYYY-MM-DD hh:mm:ss')
+    const end = moment(current.to, 'YYYY-MM-DD HH:mm:ss')
       .toDate().getTime();
-    return (((start < now) && (now < end)) || existing);
+    return (
+      (
+        (start < currentTimestamp)
+        && (currentTimestamp < end)
+      )
+      || existing
+    );
   }, false);
 };
 
@@ -66,7 +76,6 @@ function handleVariantToggle(featureToggle) {
 async function handleAcceptanceToggle(featureToggle) {
   switch (featureToggle.source) {
     case 'pivotal':
-      const Pivotal = require('../integration/pivotal');
       const pivotalTrackerApiKey = utils.environment.getPivotalTrackerApiKey();
       const pivotal = new Pivotal(pivotalTrackerApiKey);
       try {

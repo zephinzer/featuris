@@ -8,20 +8,22 @@
     "eslint": "eslint .",
     "version": "./provisioning/versioning/iterate",
     "start": "./.bin/start",
-    "test": "istanbul cover ./node_modules/.bin/_mocha -R dot --recursive ./tests/entrypoint.js \"./tests/**/*.test.js\"",
-    "test-watch": "mocha --watch -R dot --recursive ./tests/entrypoint.js \"./tests/**/*.test.js\""
+    "test": "istanbul cover ./node_modules/.bin/_mocha -- --reporter list --prof --retries 3 --check-leaks --full-trace --forbid-only --forbid-pending --recursive ./tests/entrypoint.js \"./tests/**/*.test.js\"",
+    "test-watch": "mocha --watch --reporter list --prof --full-trace --retries 2 --recursive ./tests/entrypoint.js \"./tests/**/*.test.js\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-sinon": "^2.8.1",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
     "eslint-config-google": "^0.9.1",
-    "istanbul": "^0.4.5",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^4.0.1",
     "nodemon": "^1.12.1",
     "proxyquire": "^1.8.0",
+    "rewire": "^3.0.2",
     "sinon": "^4.1.3"
   },
   "dependencies": {
