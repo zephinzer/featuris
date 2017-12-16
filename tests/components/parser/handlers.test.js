@@ -140,7 +140,6 @@ describe('components/parser/handlers', () => {
         ],
       };
       const expectedReturnedValue = 'expected';
-      let Pivotal;
 
       before(() => {
         parserHandlers.__set__('_acceptanceHandlers', {
@@ -163,7 +162,7 @@ describe('components/parser/handlers', () => {
       });
 
       after(() => {
-        parserHandlers.__set__('Pivotal', Pivotal);
+        parserHandlers.__set__('_acceptanceHandlers', undefined);
       });
 
       it('works as expected', () =>
