@@ -14,9 +14,9 @@ module.exports = {
  */
 function splitFilename(filePath) {
   const extensionIndex = filePath.lastIndexOf('.');
-  const extension =
+  const extension = (extensionIndex === -1) ? '' :
     filePath.substr(extensionIndex + 1);
-  const filename =
+  const filename = (extensionIndex === -1) ? filePath :
     filePath.substr(0, extensionIndex);
   return {extension, filename};
 };
