@@ -14,7 +14,10 @@ jobs:
   include:
     - stage: test
       script:
-        - npm test
+        - npm run eslint
+    - stage: test
+      script:
+        - npm run test
     - stage: publish
       script:
         - npm run build
