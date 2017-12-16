@@ -1,6 +1,6 @@
 # Configuration
 
-Configurations for Janus are exposed through the environment variables. Set them using a `.env` file and a single environment variable, `USE_DOTENV="true"` or use one of Docker, Docker Compose or Kubernetes to inject these environment variables. See more below at [Methods For Environment Variable Injection](#methods-for-environment-variable-injection).
+Configurations for Featuris are exposed through the environment variables. Set them using a `.env` file and a single environment variable, `USE_DOTENV="true"` or use one of Docker, Docker Compose or Kubernetes to inject these environment variables. See more below at [Methods For Environment Variable Injection](#methods-for-environment-variable-injection).
 
 ## Environment Variables
 
@@ -13,10 +13,10 @@ Configurations for Janus are exposed through the environment variables. Set them
 - `LOGS_FORMAT`: specifies the format of the label and should be one of `"text"` or `"json"`. **Defaults to `"text"`.**
 - `LOGS_SHOW_LEVEL`: specifies whether the level of logs should be displayed when logging (*ie. debug/info/warn/error*). **Defaults to `"false"`.**
 - `LOGS_STRINGIFY`: specifies whether the logs should be stringified. Applicable only when `LOGS_FORMAT` is set to `"json"`. **Defaults to `"false"`.**
-- `NODE_ENV`: specifies the environment in which Janus should run in. When speciifed, Janus only returns values for the environment matching `NODE_ENV` in the feature manifests. When this is not specified, Janus returns all environments defined from the feature manifest. **Defaults to `undefined`.**
-- `PORT`: overrides the port on which Janus listens on. **Defaults to `3000`.**
+- `NODE_ENV`: specifies the environment in which Featuris should run in. When speciifed, Featuris only returns values for the environment matching `NODE_ENV` in the feature manifests. When this is not specified, Featuris returns all environments defined from the feature manifest. **Defaults to `undefined`.**
+- `PORT`: overrides the port on which Featuris listens on. **Defaults to `3000`.**
 - `PIVOTAL_TRACKER_API_KEY`: specifies your Pivotal Tracker API key for use with Pivotal Tracker acceptance flag integrations. [See more on integrations at this page](integrations.md). **Defaults to `undefined`.**
-- `USE_DOTENV`: specifies whether Janus should attempt to load environment variables from a `.env` file located in the working directory from where Janus was run. **Defaults to `"false"`.**
+- `USE_DOTENV`: specifies whether Featuris should attempt to load environment variables from a `.env` file located in the working directory from where Featuris was run. **Defaults to `"false"`.**
 
 ### `ALLOWED_ORIGINS`
 > Defaults to `undefined`
@@ -35,13 +35,13 @@ ALLOWED_ORIGINS="http://localhost:3000,https://www.mysite.com"
 ### `DEFAULT_DATA_SOURCE`
 > Defaults to `"data/features"`
 
-This defines the location where Janus will look for feature manifests. This can be a relative path or an absolute path. By default, we use the `data/features` directory relative to the working directory of Janus and run through all `.yaml`, `.yml` and `.json` files.
+This defines the location where Featuris will look for feature manifests. This can be a relative path or an absolute path. By default, we use the `data/features` directory relative to the working directory of Featuris and run through all `.yaml`, `.yml` and `.json` files.
 
 #### Example
-Assuming a directory created at `/etc/janus/manifests` containing your feature manifests:
+Assuming a directory created at `/etc/Featuris/manifests` containing your feature manifests:
 
 ```bash
-DEFAULT_DATA_SOURCE="/etc/janus/manifests"
+DEFAULT_DATA_SOURCE="/etc/Featuris/manifests"
 ```
 
 ### `LOGS_COLORIZE`
@@ -86,12 +86,12 @@ When set to `"false"`, logs will look like this:
 ### `NODE_ENV`
 > Defaults to `undefined`
 
-This sets the environment which Janus should run in and also the environment for which keys from the feature manifest will be returned. See the section, [Feature Manifest > Environment Key](feature-manifests.md#environment-key), for more information.
+This sets the environment which Featuris should run in and also the environment for which keys from the feature manifest will be returned. See the section, [Feature Manifest > Environment Key](feature-manifests.md#environment-key), for more information.
 
 ### `PORT`
 > Defaults to `3000`
 
-This sets the port on which Janus will listen to.
+This sets the port on which Featuris will listen to.
 
 ### `PIVOTAL_TRACKER_API_KEY`
 > Defaults to `undefined`
@@ -101,13 +101,13 @@ This sets the Pivotal Tracker API Key for use with acceptance flags. [See more o
 ## Methods For Environment Variable Injection
 
 ### Via `.env`
-Create a file named `.env` in the root of Janus and pass the environment variable `USE_DOTENV=true` when running `npm start`.
+Create a file named `.env` in the root of Featuris and pass the environment variable `USE_DOTENV=true` when running `npm start`.
 
 ### Via `Dockerfile`
 You can also build another Dockerfile with the `ENV` directive specifying the environment variables:
 
 ```Dockerfile
-FROM zephinzer/janus:latest
+FROM zephinzer/Featuris:latest
 ENV NODE_ENV=production \
     LOGS_DISABLED=true
 ...
@@ -116,7 +116,7 @@ ENV NODE_ENV=production \
 ### Via `docker run`
 
 ```bash
-docker run -e "NODE_ENV=production" -e "LOGS_DISABLED=true" -p 3000:3000 zephinzer/janus:latest
+docker run -e "NODE_ENV=production" -e "LOGS_DISABLED=true" -p 3000:3000 zephinzer/Featuris:latest
 ```
 
 ### Via `docker-compose.yaml`
@@ -125,7 +125,7 @@ docker run -e "NODE_ENV=production" -e "LOGS_DISABLED=true" -p 3000:3000 zephinz
 version: "3"
 services:
   feature_toggle_server:
-    image: zephinzer/janus:latest
+    image: zephinzer/Featuris:latest
     environment:
       - NODE_ENV=production
       - LOGS_DISABLED=true
@@ -138,9 +138,9 @@ services:
 kind: Deployment
 apiVersion: apps/v1beta1
 metadata:
-  name: janus-feature-toggle-server
+  name: Featuris-feature-toggle-server
   labels:
-    app: janus
+    app: Featuris
     env: production
 spec:
   replicas: 1
@@ -148,7 +148,7 @@ spec:
     spec:
       containers:
       - name: feature_toggle_server
-        image: zephinzer/janus:latest
+        image: zephinzer/Featuris:latest
         ports:
         - containerPort: 3000
         env:

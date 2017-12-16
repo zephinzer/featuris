@@ -1,6 +1,6 @@
-# Janus Feature Toggling Server
+# Featuris Feature Toggling Server
 
-A no-frills, unopinionated feature toggling server.
+A no-frills, unopinionated L7 feature toggling server.
 
 ## Contents
 - [Getting Started](getting-started.md)
@@ -24,7 +24,7 @@ Currently supported features:
 ### Static Flags
 Static flags are hard values which should be returned. Think of these as setting the value for different environments.
 
-### A/B Variant Flags
+### Variant Flags
 A/B Variant flags are used in A/B testing and can be configured to target a certain percentage of users. For example, we can release a new feature to only 10% of users by specifying the **"a"** variant to be returned 90% of the time and the **"b"** variant to be returned 10% of the time.
 
 ### Scheduled Flags

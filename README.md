@@ -1,4 +1,4 @@
-# Janus Feature Toggling Server
+# Featuris Feature Toggling Server
 
 A no-frills, unopinionated feature toggling server.
 

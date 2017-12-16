@@ -23,22 +23,22 @@ variant_feature:
         percentage: 80
 ```
 
-In the same directory, pull the latest Docker image for Janus:
+In the same directory, pull the latest Docker image for Featuris:
 
 ```bash
-docker pull zephinzer/janus:latest
+docker pull zephinzer/featuris:latest
 ```
 
-Next, start Janus using:
+Next, start Featuris using:
 
 ```bash
 docker run \
   -p 3000:3000 \
   -v "$(pwd)":/app/data/features \
   -e "NODE_ENV=production" \
-  zephinzer/janus:latest
+  zephinzer/featuris:latest
 ```
 
-You should now be able to access Janus in `production` environment at http://localhost:3000/hello_world.
+You should now be able to access Featuris in `production` environment at http://localhost:3000/hello_world.
 
 Acceptance feature toggles require additional configuration. Check out [the Integrations section](integrations.md) on how to do this.

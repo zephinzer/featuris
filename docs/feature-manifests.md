@@ -1,9 +1,9 @@
 # Feature Manifests
-Feature manifests are YAML or JSON formatted files that indicate to Janus the feature flags, their types and values.
+Feature manifests are YAML or JSON formatted files that indicate to Featuris the feature flags, their types and values.
 
 Feature manifests are stored as files at `./data/features` by default. You change that by modifying the configuration through the `DEFAULT_DATA_SOURCE` environment variable. See [Configurations > DEFAULT_DATA_SOURCE](configuration.md#default_data_source) for more info.
 
-Janus will read through all YAML and JSON files in the specified directory and add the filename as a path endpoint to access each feature flag set. For example, given two files in `./data/features`:
+Featuris will read through all YAML and JSON files in the specified directory and add the filename as a path endpoint to access each feature flag set. For example, given two files in `./data/features`:
 
 ```bash
 ls -lA ./data/features;
@@ -88,7 +88,7 @@ environment_name:
   [value]: Any (used for static flags)
 ```
 
-The environment key is selected by Janus based on the `NODE_ENV`. For example, if `NODE_ENV` is `production`, only feature flags under the `production` environment name will be returned. If no `NODE_ENV` is specified, all environments will be returned.
+The environment key is selected by Featuris based on the `NODE_ENV`. For example, if `NODE_ENV` is `production`, only feature flags under the `production` environment name will be returned. If no `NODE_ENV` is specified, all environments will be returned.
 
 For example, given a feature manifest:
 

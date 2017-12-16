@@ -1,6 +1,6 @@
 # Integration
 
-Janus comes with in-built integrations for acceptance tests.
+Featuris comes with in-built integrations for acceptance tests.
 
 Currently supported platforms:
   - [Pivotal Tracker](#pivotal-tracker-acceptance-toggles)  
@@ -16,7 +16,7 @@ Currently supported platforms:
 3. Scroll to the bottom of the page and you should see an **API Token** section, this contains your API Key
 
 ### Using the key
-When starting Janus, register a new environment variable named `PIVOTAL_TRACKER_API_KEY` containing the API Key.
+When starting Featuris, register a new environment variable named `PIVOTAL_TRACKER_API_KEY` containing the API Key.
 
 You will now be able to specify feature toggles of `acceptance` types:
 

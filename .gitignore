@@ -1,4 +1,5 @@
 .env
+*.log
 coverage
 data/features
 !data/features/hello_world.yaml

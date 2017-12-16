@@ -9,6 +9,6 @@ else
 fi;
 docker build \
   -f ./provisioning/Dockerfile \
-  -t zephinzer/janus:$(./provisioning/versioning/get-latest -q) \
+  -t zephinzer/featuris:$(./provisioning/versioning/get-latest -q) \
   .;
-docker tag zephinzer/janus:$(./provisioning/versioning/get-latest -q) zephinzer/janus:latest
+docker tag zephinzer/featuris:$(./provisioning/versioning/get-latest -q) zephinzer/featuris:latest

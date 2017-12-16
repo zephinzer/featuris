@@ -28,7 +28,7 @@ jobs:
             ./provisioning/versioning/iterate -i -q;
           fi;
         - ./provisioning/versioning/iterate -q
-        - git push -q https://zephinzer:${GITHUB_TOKEN}@github.com/zephinzer/janus.git --tags;
+        - git push -q https://zephinzer:${GITHUB_TOKEN}@github.com/zephinzer/featuris.git --tags;
         - docker push ${DOCKERHUB_REPO_URL}:$(./provisioning/versioning/get-latest -q)
         - docker push ${DOCKERHUB_REPO_URL}:latest
         - docker logout
