@@ -33,10 +33,11 @@ function getDataSourcePath() {
     process.env.DEFAULT_DATA_SOURCE ?
       process.env.DEFAULT_DATA_SOURCE : 'UNDEFINED'
   );
-  const dataSourcePath =
-    path.join(
-      process.cwd(),
-      process.env.DEFAULT_DATA_SOURCE || CONST.DEFAULT.DATA_SOURCE
+  const defaultDataSource = process.env.DEFAULT_DATA_SOURCE || CONST.DEFAULT.DATA_SOURCE;
+
+  const dataSourcePath = (defaultDataSource.indexOf('/') === 0) ?
+    defaultDataSource : path.join(
+      process.cwd(), defaultDataSource
     );
   log.info(`  - data source path set to ${dataSourcePath}`);
   return dataSourcePath;
@@ -69,7 +70,21 @@ function getPort() {
   log.info('PORT                      =',
     process.env.PORT ? process.env.PORT : 'UNDEFINED'
   );
-  const port = process.env.PORT || CONST.DEFAULT.PORT;
+  const defaultPort = (typeof(process.env.PORT) === 'undefined')
+    ? CONST.DEFAULT.PORT : process.env.PORT;
+  let port;
+  try {
+    port = Number.parseInt(defaultPort);
+  } catch (ex) {
+    log.error(`  * specified port (${port}) is not a number`);
+  }
+  if (port > 65535) {
+    log.error(`  * specified port (${port}) is above the valid number of ports`); // eslint-disable-line max-len
+    throw new Error(`Port number ${port} is more than 65535`);
+  } else if (port < 1) {
+    log.error(`  * specified port (${port}) is below the valid number of ports`); // eslint-disable-line max-len
+    throw new Error(`Port number ${port} is less than than 1`);
+  }
   log.info(`  - port set to ${port}`);
   return port;
 };
