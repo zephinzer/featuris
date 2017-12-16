@@ -1,8 +1,10 @@
+const fs = require('fs');
+const path = require('path');
+
 const moment = require('moment');
 
 const CONST = require('./constants');
-let utils = require('../utils');
-let Pivotal = require('../integration/pivotal');
+let _acceptanceHandlers;
 
 module.exports = handlers;
 
@@ -20,6 +22,8 @@ function handlers(type) {
   }
 };
 
+handlers._acceptanceHandlers = _acceptanceHandlers;
+handlers._getAcceptanceHandlers = _getAcceptanceHandlers;
 handlers.acceptance = handleAcceptanceToggle;
 handlers.schedule = handleScheduleToggle;
 handlers.static = handleStaticToggle;
@@ -74,22 +78,22 @@ function handleVariantToggle(featureToggle) {
  * @return {Booleab}
  */
 async function handleAcceptanceToggle(featureToggle) {
-  switch (featureToggle.source) {
-    case 'pivotal':
-      const pivotalTrackerApiKey = utils.environment.getPivotalTrackerApiKey();
-      const pivotal = new Pivotal(pivotalTrackerApiKey);
-      try {
-        const state = await pivotal.verifyStories({
-          stories: featureToggle.values,
-          desiredState: featureToggle.state,
-        });
-        return state.achieved;
-      } catch (ex) {
-        log.error(ex);
-        throw ex;
-      }
-    default:
-      throw new Error(CONST.ERROR.UNSUPPORTED_SOURCE);
+  const acceptanceHandlers = _getAcceptanceHandlers();
+  if (typeof(acceptanceHandlers[featureToggle.source]) !== 'undefined') {
+    const AcceptanceHandler = acceptanceHandlers[featureToggle.source];
+    const integration = new AcceptanceHandler();
+    try {
+      const state = await integration.verifyStories({
+        stories: featureToggle.values,
+        desiredState: featureToggle.state,
+      });
+      return state.achieved;
+    } catch (ex) {
+      log.error(ex);
+      throw ex;
+    }
+  } else {
+    throw new Error(CONST.ERROR.UNSUPPORTED_SOURCE);
   }
 };
 
@@ -102,4 +106,26 @@ function handleStaticToggle(featureToggle) {
     throw new Error(`When the feature 'type' property is static, a 'value' property should be defined.`); // eslint-disable-line max-len
   }
   return featureToggle.value;
+};
+
+/**
+ * Returns a list of available acceptance handlers
+ *
+ * @return {Object}
+ */
+function _getAcceptanceHandlers() {
+  if (typeof(_acceptanceHandlers) !== 'object') {
+    const integrationsPath = path.join(__dirname, '../integration');
+    _acceptanceHandlers = fs.readdirSync(integrationsPath)
+      .reduce((existing, integrationSource) => {
+        return Object.assign(
+          existing,
+          {
+            [integrationSource]:
+              require(path.join(integrationsPath, `/${integrationSource}`)),
+          }
+        );
+      }, {});
+  }
+  return _acceptanceHandlers;
 };

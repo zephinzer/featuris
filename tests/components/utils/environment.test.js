@@ -2,7 +2,7 @@ const path = require('path');
 
 const environmentUtils = require('../../../components/utils/environment');
 
-describe.only('components/utils/environment', () => {
+describe('components/utils/environment', () => {
   describe('.getAllowedOrigins()', () => {
     const {getAllowedOrigins} = environmentUtils;
 

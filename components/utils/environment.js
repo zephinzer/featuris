@@ -33,7 +33,8 @@ function getDataSourcePath() {
     process.env.DEFAULT_DATA_SOURCE ?
       process.env.DEFAULT_DATA_SOURCE : 'UNDEFINED'
   );
-  const defaultDataSource = process.env.DEFAULT_DATA_SOURCE || CONST.DEFAULT.DATA_SOURCE;
+  const defaultDataSource =
+    process.env.DEFAULT_DATA_SOURCE || CONST.DEFAULT.DATA_SOURCE;
 
   const dataSourcePath = (defaultDataSource.indexOf('/') === 0) ?
     defaultDataSource : path.join(

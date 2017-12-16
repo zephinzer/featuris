@@ -11,7 +11,7 @@ module.exports = Pivotal;
  * @return {Pivotal}
  */
 function Pivotal(_pivotalApiKey) {
-  const pivotalApiKey = _pivotalApiKey;
+  const pivotalApiKey = _pivotalApiKey || process.env.PIVOTAL_TRACKER_API_KEY;
   this.config = {
     pivotalApiKey,
   };

@@ -6,6 +6,8 @@ describe('components/parser/handlers', () => {
   describe('()', () => {
     it('contains the correct static methods', () => {
       expect(parserHandlers).to.have.keys([
+        '_acceptanceHandlers',
+        '_getAcceptanceHandlers',
         'acceptance',
         'schedule',
         'static',
@@ -137,41 +139,30 @@ describe('components/parser/handlers', () => {
           },
         ],
       };
-      const expectedPivotalTrackerApiKey = 'pivotalTrackerApiKey';
       const expectedReturnedValue = 'expected';
       let Pivotal;
-      let utils;
 
       before(() => {
-        utils = parserHandlers.__get__('utils');
-        parserHandlers.__set__('utils', {
-          environment: {
-            getPivotalTrackerApiKey: () => {
-              return expectedPivotalTrackerApiKey;
-            },
+        parserHandlers.__set__('_acceptanceHandlers', {
+          pivotal: function(...constructorArguments) {
+            pivotalConstructor(...constructorArguments);
+            return {
+              verifyStories: (...verifyStoriesArguments) => {
+                verifyStories(...verifyStoriesArguments);
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    resolve({
+                      achieved: expectedReturnedValue,
+                    });
+                  }, 1);
+                });
+              },
+            };
           },
-        });
-
-        Pivotal = parserHandlers.__get__('Pivotal');
-        parserHandlers.__set__('Pivotal', function(...constructorArguments) {
-          pivotalConstructor(...constructorArguments);
-          return {
-            verifyStories: (...verifyStoriesArguments) => {
-              verifyStories(...verifyStoriesArguments);
-              return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  resolve({
-                    achieved: expectedReturnedValue,
-                  });
-                }, 1);
-              });
-            },
-          };
         });
       });
 
       after(() => {
-        parserHandlers.__set__('utils', utils);
         parserHandlers.__set__('Pivotal', Pivotal);
       });
 
@@ -179,8 +170,6 @@ describe('components/parser/handlers', () => {
         handleAcceptanceToggle(acceptanceToggleTestCase)
           .then((res) => {
             expect(res).to.eql(expectedReturnedValue);
-            expect(pivotalConstructor)
-              .to.be.calledWith(expectedPivotalTrackerApiKey);
             expect(verifyStories).to.be.calledWith({
               desiredState: acceptanceToggleTestCase.state,
               stories: acceptanceToggleTestCase.values,
@@ -213,7 +202,6 @@ describe('components/parser/handlers', () => {
       }})).to.eql({
         objects: 'work too',
       });
-      
     });
 
     it('throws an error if the value property is undefined', () => {

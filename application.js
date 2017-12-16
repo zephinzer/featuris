@@ -15,7 +15,7 @@ module.exports = getApplication;
  */
 function getApplication() {
   const application = new express.Router();
-  
+
   const dataSourcePath = utils.environment.getDataSourcePath();
   utils.verify.directoryExists(dataSourcePath, 'Feature source path');
   const featureSourceFileListing = fs.readdirSync(dataSourcePath);
