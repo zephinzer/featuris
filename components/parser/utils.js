@@ -1,5 +1,5 @@
 const CONST = require('./constants');
-const handlers = require('./handlers');
+let handlers = require('./handlers');
 
 module.exports = {
   processFeatureToggle,
