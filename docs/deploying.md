@@ -47,7 +47,9 @@ docker-compose -f ./docker-compose.yml up
 ```
 
 ## Via Docker Image Pull
-Create a new directory and place your feature manifests in it. Run the following from the directory, which pulls in the Docker image from Docker Hub and uses it to instantiate a container that is running in `"production"` with logs enabled. The `-v` flag indicates that the folder you are at, should be used as the directory for `/app/data/features`, which means the current directory you are at with feature manifests will be mapped to the container's `/app/data/features`. Lastly the `-p` flag indicates to expose port 3000 on the host (first '3000') from the container's port 3000 (second '3000')
+Create a new directory and place your feature manifests in it.
+
+Run the following from the directory, which pulls in the Docker image from Docker Hub and uses it to instantiate a container that is running in `"production"` with logs enabled (the `-e` flags).
 
 ```bash
 docker pull zephinzer/featuris:latest
@@ -59,7 +61,13 @@ docker run \
   zephinzer/featuris:latest;
 ```
 
-You should be able to check Featuris is up by running:
+You should be able to check Featuris is up by going to http://localhost:3000.
+
+The `-v` flag indicates that the folder you are at, should be used as the directory for `/app/data/features`, which means the current directory you are at with feature manifests will be mapped to the container's `/app/data/features`.
+
+Lastly the `-p` flag indicates to expose port 3000 on the host (first '3000') from the container's port 3000 (second '3000')
+
+To make it run in the background, add a `-d` flag and to make sure it is running, use:
 
 ```bash
 docker ps
