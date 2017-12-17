@@ -19,30 +19,11 @@ function Pivotal(_pivotalApiKey) {
 };
 
 Object.assign(Pivotal.prototype, {
-  getProject,
   getStory,
   getStoryState,
-  getStories,
   verifyApiKeyExists,
   verifyStories,
 });
-
-/**
- * Retrieves the project identified by ID :projectId
- *
- * @param {String} projectId
- *
- * @return {Promise}
- */
-function getProject(projectId) {
-  return new Promise((resolve, reject) => {
-    request
-      .get(`${API_URL_STUB}/projects/${projectId}`)
-      .set('X-TrackerToken', this.config.pivotalApiKey) // eslint-disable-line no-invalid-this,max-len
-      .then((res) => resolve(res))
-      .catch(reject);
-  });
-};
 
 /**
  * Retrieves the story identified by :storyId in project :projectId
@@ -80,25 +61,6 @@ async function getStoryState({projectId, storyId}) {
     await this.verifyApiKeyExists(); // eslint-disable-line no-invalid-this,max-len
     const story = await this.getStory({projectId, storyId}); // eslint-disable-line no-invalid-this,max-len
     return story.current_state;
-  } catch (ex) {
-    throw ex;
-  }
-};
-
-/**
- * Retrieves stories belonging to the project with ID :projectId
- *
- * @param {String} projectId
- *
- * @return {Promise}
- */
-async function getStories(projectId) {
-  try {
-    await this.verifyApiKeyExists(); // eslint-disable-line no-invalid-this,max-len
-    const stories = await request
-      .get(`${API_URL_STUB}/projects/${projectId}/stories`)
-      .set('X-TrackerToken', this.config.pivotalApiKey); // eslint-disable-line no-invalid-this,max-len
-    return stories;
   } catch (ex) {
     throw ex;
   }
