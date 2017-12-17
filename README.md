@@ -8,6 +8,7 @@ A no-frills, unopinionated feature toggling server.
 - [Deploying](docs/deploying.md)
 - [Configuration](docs/configuration.md)
 - [Integrations](docs/integrations.md)
+- [Contributing](docs/contributing.md)
 - [Roadmap](docs/roadmap.md)
 
 - - -
