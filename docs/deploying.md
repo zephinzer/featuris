@@ -113,3 +113,6 @@ Start Featuris by running:
 `pm2 start ./provisioning/ecosystem.yaml --only __APP_NAME_IN_ECOSYSTEM_FILE__`.
 
 Read more on pm2 at [their official documentation](http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/).
+
+## Next Up
+Need further configurations? Check out the section on [how to configure Featuris](configuration.md).

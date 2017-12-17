@@ -214,3 +214,7 @@ environment_name:
     - projectId: 1234567
       storyId: 998877665
 ```
+
+## Next Up
+
+Done up a feature manifest? [Deploy](deploying.md) it!

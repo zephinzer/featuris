@@ -51,3 +51,5 @@ docker run \
 ```
 
 Acceptance feature toggles require additional configuration. Check out [the Integrations section](integrations.md) on how to do this.
+
+For more details on the types of feature flags, see [Feature Manifests](feature-manifests.md).
