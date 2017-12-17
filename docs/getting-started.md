@@ -35,10 +35,19 @@ Next, start Featuris using:
 docker run \
   -p 3000:3000 \
   -v "$(pwd)":/app/data/features \
-  -e "NODE_ENV=production" \
   zephinzer/featuris:latest
 ```
 
-You should now be able to access Featuris in `production` environment at http://localhost:3000/hello_world.
+You should now be able to access Featuris at http://localhost:3000/hello_world.
+
+To make Featuris display only flags related to one environment (lets assume `production`):
+
+```bash
+docker run \
+  -p 3000:3000 \
+  -e "NODE_ENV=production" \
+  -v "$(pwd)":/app/data/features \
+  zephinzer/featuris:latest
+```
 
 Acceptance feature toggles require additional configuration. Check out [the Integrations section](integrations.md) on how to do this.
