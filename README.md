@@ -3,13 +3,13 @@
 A no-frills, unopinionated feature toggling server.
 
 ## Contents
-- [Getting Started](getting-started.md)
-- [Feature Manifests](feature-manifests.md)
-- [Deploying](deploying.md)
-- [Configuration](configuration.md)
-- [Integrations](integrations.md)
-- [Contributing](contributing.md)
-- [Roadmap](roadmap.md)
+- [Getting Started](docs/getting-started.md)
+- [Feature Manifests](docs/feature-manifests.md)
+- [Deploying](docs/deploying.md)
+- [Configuration](docs/configuration.md)
+- [Integrations](docs/integrations.md)
+- [Contributing](docs/contributing.md)
+- [Roadmap](docs/roadmap.md)
 
 - - -
 
