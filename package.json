@@ -1,11 +1,12 @@
 {
   "name": "featuris",
-  "version": "0.1.0",
+  "version": "0.0.46",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "build": "./.bin/build",
     "eslint": "eslint .",
+    "levelup": "./.bin/levelup",
     "version": "./provisioning/versioning/iterate",
     "start": "./.bin/start",
     "test": "istanbul cover ./node_modules/.bin/_mocha -- --reporter list --prof --retries 3 --check-leaks --full-trace --forbid-only --forbid-pending --recursive ./tests/entrypoint.js \"./tests/**/*.test.js\"",

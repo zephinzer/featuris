@@ -1,0 +1,165 @@
+#!/usr/bin/env node
+/**
+ * Usage:
+ *  - ./.bin/levelup -- patch : upgrades patch version
+ *  - ./.bin/levelup -- minor : upgrades minor version
+ *  - ./.bin/levelup -- major : upgrades major version
+ */
+const fs = require('fs');
+const path = require('path');
+const {spawn} = require('child_process');
+const packageJson = require('../package.json');
+const {version} = packageJson;
+if (version.match(/^[0-9]+[\.]{1}[0-9]+[\.]{1}[0-9]+$/) === null) {
+  console.error('invalid version!');
+}
+const getLatest = spawn(`${path.join(process.cwd(), './provisioning/versioning/get-latest')}`, ['-q']);
+
+let reporterVersion;
+getLatest.stdout.on('data', (dataBuffer) => {
+  reporterVersion = dataBuffer.toString().trim();
+});
+getLatest.stderr.on('data', (dataBuffer) => {
+  const error = dataBuffer.toString().trim();
+  throw new Error(`could not get latest version because of following error:\n${error}`);
+});
+getLatest.on('exit', (exitCode) => {
+  if (exitCode == 0) {
+    const reporterVersionInfo = reporterVersion.split('.');
+    const reporterVersionHash = getVersionHash(reporterVersionInfo);
+    const packageJsonVersionInfo = version.split('.');
+    const packageJsonVersionHash = getVersionHash(packageJsonVersionInfo);
+    console.info(`git tag version      | ${reporterVersion}`);
+    console.info(`package.json version | ${version}`);
+    if (packageJsonVersionHash > reporterVersionHash) {
+      console.info(`git tags out of sync - updating (${reporterVersion} -> ${version})...`);
+      const updatedVersion = packageJsonVersionInfo.toString().replace(/,/gi, '.');
+      const reporterVersionUpgrader = spawn(
+        'git', ['tag', `${updatedVersion}`]
+      );
+      reporterVersionUpgrader.stderr.on('data', (dataBuffer) => {
+        const error = dataBuffer.toString().trim();
+        throw new Error(`could not update git tags because of following error:\n${error}`);
+      });
+      reporterVersionUpgrader.on('exit', (exitCode) => {
+        if (exitCode == 0) {
+          console.info(`git tag updated to ${updatedVersion} (from ${reporterVersion}) - bumping version now...`);
+          bumpVersion(process.argv[2]);
+        } else {
+          console.error('exiting with status code', exitCode);
+          process.exit(exitCode);
+        }
+      });
+    } else if (packageJsonVersionHash < reporterVersionHash) {
+      console.info(`package.json out of sync - updating (${version} -> ${reporterVersion})...`);
+      const updatedVersion = reporterVersionInfo.toString().replace(/,/gi, '.');
+      packageJson.version = updatedVersion;
+      updatePackageJson(packageJson)
+        .then(() => {
+          console.info(`package.json updated to ${reporterVersion} (from ${version}) - bumping version now...`);
+          bumpVersion(process.argv[2]);
+        })
+        .catch((err) => {throw new Error('could not update package.json.')});
+    } else {
+      console.info('git tags and package.json are aligned in version - bumping version now...');
+      bumpVersion(process.argv[2]);
+    }
+  } else {
+    console.error('exiting with status code', exitCode);
+    process.exit(exitCode);
+  }
+});
+
+/**
+ * 
+ * @param {Array<Number>} versionInfo
+ */
+function getVersionHash(versionInfo) {
+  return versionInfo.reduce(
+    (p, c, i) => {
+      return (p + Math.pow(10000, (2 - i) + 1) * (Number.parseInt(c) / 10000))
+    },
+    0
+  );
+};
+
+/**
+ * 
+ * @param {Object} updatedInfo
+ */
+function updatePackageJson(updatedInfo) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(
+      path.join(__dirname, '../package.json'),
+      JSON.stringify(updatedInfo, null, 2),
+      (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      }
+    );
+  });
+};
+
+/**
+ * 
+ * @param {String} versionBumpCategory
+ */
+function bumpVersion(versionBumpCategory) {
+  let versionUpgrader;
+  switch (versionBumpCategory) {
+    case 'major':
+    case 'minor':
+    case 'patch':
+      console.log(`${versionBumpCategory} version bump initialised...`);
+      versionUpgrader = spawn(
+        `${path.join(process.cwd(), '/provisioning/versioning/iterate')}`,
+        [
+          versionBumpCategory,
+          '-q'
+        ]
+      );
+      versionUpgrader.stderr.on('data', (dataBuffer) => {
+        const error = dataBuffer.toString();
+        throw new Error(`could not bump version because of following error:\n${error}`);
+      })
+      versionUpgrader.on('exit', (exitCode) => {
+        if (exitCode == 0) {
+          const currentVersion = spawn(
+            `${path.join(process.cwd(), '/provisioning/versioning/get-latest')}`,
+            [
+              '-q'
+            ]
+          );
+          let latestVersion;
+          currentVersion.stdout.on('data', (dataBuffer) => {
+            latestVersion = dataBuffer.toString().trim();
+            console.info(`git tags updated to ${latestVersion}.`);
+          });
+          currentVersion.on('exit', (exitCode) => {
+            if (exitCode == 0) {
+              packageJson.version = latestVersion;
+              updatePackageJson(packageJson)
+                .then(() => {
+                  console.info(`package.json updated to ${latestVersion}.`);
+                  console.info('exiting with status code 0');
+                  process.exit(0);
+                })
+                .catch((err) => {throw new Error('could not update package.json.')});
+            } else {
+              console.error('exiting with status code', exitCode);
+              process.exit(exitcode);
+            }
+          });
+        } else {
+          console.error('exiting with status code', exitCode);
+          process.exit(exitCode);
+        }
+      })
+      break;
+    default:
+      throw new Error(`argument should be one of {"major", "minor", "patch"}. "${versionBumpCategory}" found instead.`)
+  }
+}
