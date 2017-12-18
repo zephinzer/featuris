@@ -1,6 +1,6 @@
 # Featuris Feature Toggling Server
 
-A no-frills, unopinionated feature toggling server.
+An L7 feature toggling server for development teams following trunk-based development to turn on/off features through configuration instead of deployment.
 
 ## Contents
 - [Getting Started](getting-started.md)
